@@ -1,0 +1,23 @@
+# Virtual environment
+/bin/
+/include/
+/lib/
+/lib64/
+/pyvenv.cfg
+
+# Credentials
+.env
+.env.*
+
+# Python
+__pycache__/
+*.pyc
+
+# Local files
+db.sqlite3
+.vscode/
+.DS_Store
+dbscripts.py
+
+# Collected static files
+/staticfiles/

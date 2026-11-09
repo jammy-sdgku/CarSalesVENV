@@ -1,0 +1,79 @@
+{% load static l10n %}
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Car Details | CarSales</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a class="brand" href="{% url 'carslist' %}">CarSales</a>
+            <span class="topbar-label">Inventory Management</span>
+        </div>
+    </header>
+
+    <main class="container form-container">
+        <div class="page-heading">
+            <div>
+                <h1>Vehicle details</h1>
+                <p class="subtitle">Enter the vehicle information below. All fields are required.</p>
+            </div>
+        </div>
+
+        <section class="card" aria-label="Vehicle details">
+            <div class="card-heading">Vehicle information</div>
+
+            <form method="post" class="car-form">
+                {% csrf_token %}
+
+                {% if form.errors %}
+                <div class="error-summary" role="alert">
+                    <strong>Please correct the following:</strong>
+                    {{ form.errors }}
+                </div>
+                {% endif %}
+
+                <div class="form-grid">
+                    <div>
+                        <label for="id">Vehicle ID</label>
+                        <input type="text" name="id" id="id" inputmode="numeric"
+                               value="{{ car.id|unlocalize }}" required>
+                    </div>
+
+                    <div>
+                        <label for="year">Make year</label>
+                        <input type="text" name="year" id="year" inputmode="numeric"
+                               value="{{ car.year|unlocalize }}" required>
+                    </div>
+
+                    <div class="full-width">
+                        <label for="name">Maker and model</label>
+                        <input type="text" name="name" id="name" maxlength="100"
+                               value="{{ car.name }}" placeholder="e.g. Toyota Camry"
+                               required>
+                    </div>
+
+                    <div class="full-width">
+                        <label for="price">Sell price ($)</label>
+                        <input type="text" name="price" id="price" inputmode="decimal"
+                               value="{% if form.is_bound %}{{ car.price }}{% else %}{{ car.price|floatformat:'0g' }}{% endif %}"
+                               placeholder="e.g. 40,000"
+                               aria-describedby="price-help" required>
+                        <p id="price-help" class="help-text">
+                            Enter the price in dollars, for example 40,000.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <a class="btn btn-secondary" href="{% url 'carslist' %}">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Save vehicle</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
